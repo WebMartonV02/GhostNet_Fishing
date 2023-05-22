@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GhostNetFishing.GhostNets;
+using GhostNetFishing.GhostNetsAndPersonen;
+using GhostNetFishing.Personen;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -74,13 +78,29 @@ public class GhostNetFishingDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
-        /* Configure your own tables/entities inside here */
+        builder.Entity<GhostNet>(b =>
+        {
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNet), GhostNetFishingConsts.DbSchema);
+            b.ConfigureByConvention();
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(GhostNetFishingConsts.DbTablePrefix + "YourEntities", GhostNetFishingConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+            b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.GhostNet);
+        });
+
+        builder.Entity<Person>(b =>
+        {
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(Person), GhostNetFishingConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.Person);
+        });
+
+        builder.Entity<GhostNetAndPerson>(b =>
+        {
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetAndPerson), GhostNetFishingConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasOne(x => x.Person).WithOne(x => x.GhostNetAndPerson);
+            b.HasOne(x => x.GhostNet).WithOne(x => x.GhostNetAndPerson);
+        });
     }
 }
