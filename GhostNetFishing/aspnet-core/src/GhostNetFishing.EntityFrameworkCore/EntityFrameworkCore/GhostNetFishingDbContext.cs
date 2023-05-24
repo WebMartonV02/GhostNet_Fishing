@@ -78,9 +78,9 @@ public class GhostNetFishingDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
-        builder.Entity<GhostNet>(b =>
+        builder.Entity<GhostNetStatus>(b =>
         {
-            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNet), GhostNetFishingConsts.DbSchema);
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetStatus), GhostNetFishingConsts.DbSchema);
             b.ConfigureByConvention();
 
             b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.GhostNet);
