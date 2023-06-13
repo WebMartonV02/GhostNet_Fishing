@@ -28,6 +28,9 @@ public class GhostNetFishingDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
+    public DbSet<GhostNetStatus> GhostNetStatuses { get; set; }
+    public DbSet<Person> Persons { get; set; }
+    public DbSet<GhostNetAndPerson> GhostNetAndPersons { get; set; }
 
     #region Entities from the modules
 
@@ -78,17 +81,32 @@ public class GhostNetFishingDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
+        /* Configure your own tables/entities inside here */
+
+        //builder.Entity<YourEntity>(b =>
+        //{
+        //    b.ToTable(GhostNetFishingConsts.DbTablePrefix + "YourEntities", GhostNetFishingConsts.DbSchema);
+        //    b.ConfigureByConvention(); //auto configure for the base class props
+        //    //...
+        //});
+
         builder.Entity<GhostNetStatus>(b =>
         {
             b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetStatus), GhostNetFishingConsts.DbSchema);
             b.ConfigureByConvention();
-
-            b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.GhostNet);
         });
 
         builder.Entity<Person>(b =>
         {
             b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(Person), GhostNetFishingConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.Person);
+        });
+
+        builder.Entity<GhostNet>(b =>
+        {
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNet), GhostNetFishingConsts.DbSchema);
             b.ConfigureByConvention();
 
             b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.Person);
@@ -101,6 +119,8 @@ public class GhostNetFishingDbContext :
 
             b.HasOne(x => x.Person).WithOne(x => x.GhostNetAndPerson);
             b.HasOne(x => x.GhostNet).WithOne(x => x.GhostNetAndPerson);
+            b.HasOne(x => x.GhostNetStatus).WithOne(x => x.GhostNetAndPersons);
         });
+
     }
 }

@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44363/',
+    issuer: 'https://localhost:44330/',
     redirectUri: baseUrl,
     clientId: 'GhostNetFishing_App',
     responseType: 'code',
@@ -19,7 +19,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://localhost:44363',
+      url: 'https://localhost:44330',
       rootNamespace: 'GhostNetFishing',
     },
   },

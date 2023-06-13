@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace GhostNetFishing.Migrations
 {
     [DbContext(typeof(GhostNetFishingDbContext))]
-    [Migration("20230516190217_Initial")]
-    partial class Initial
+    [Migration("20230613192613_Initial_Mig")]
+    partial class InitialMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
