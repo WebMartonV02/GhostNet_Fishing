@@ -1,8 +1,8 @@
 ﻿using GhostNetFishing.GhostNets;
-using GhostNetFishing.Personen;
+using GhostNetFishing.Persons;
 using Volo.Abp.Domain.Entities;
 
-namespace GhostNetFishing.GhostNetsAndPersonen
+namespace GhostNetFishing.GhostNetAndPersons
 {
     public class GhostNetAndPerson : Entity<int>
     {
@@ -10,7 +10,5 @@ namespace GhostNetFishing.GhostNetsAndPersonen
         public GhostNet GhostNet { get; set; }
         public int PersonId { get; set; }
         public Person Person { get; set; }
-        public int GhostNetStatusId { get; set; } 
-        public GhostNetStatus GhostNetStatus { get; set; } 
     }
 }

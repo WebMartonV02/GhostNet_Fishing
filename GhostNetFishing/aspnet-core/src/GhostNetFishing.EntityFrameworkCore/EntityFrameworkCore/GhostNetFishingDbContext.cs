@@ -1,6 +1,8 @@
-﻿using GhostNetFishing.GhostNets;
-using GhostNetFishing.GhostNetsAndPersonen;
-using GhostNetFishing.Personen;
+﻿using GhostNetFishing.GhostNetAndPersons;
+using GhostNetFishing.GhostNets;
+using GhostNetFishing.GhostNetStatuses;
+using GhostNetFishing.Persons;
+using GhostNetFishing.PersonTypes;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -27,10 +29,11 @@ public class GhostNetFishingDbContext :
     IIdentityDbContext,
     ITenantManagementDbContext
 {
-    /* Add DbSet properties for your Aggregate Roots / Entities here. */
+    public DbSet<GhostNet> GhostNets { get; set; }
     public DbSet<GhostNetStatus> GhostNetStatuses { get; set; }
-    public DbSet<Person> Persons { get; set; }
     public DbSet<GhostNetAndPerson> GhostNetAndPersons { get; set; }
+    public DbSet<Person> Persons { get; set; }
+    public DbSet<PersonType> PersonTypes { get; set; }
 
     #region Entities from the modules
 
@@ -70,8 +73,6 @@ public class GhostNetFishingDbContext :
     {
         base.OnModelCreating(builder);
 
-        /* Include modules to your migration db context */
-
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
@@ -81,35 +82,21 @@ public class GhostNetFishingDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
-        /* Configure your own tables/entities inside here */
-
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(GhostNetFishingConsts.DbTablePrefix + "YourEntities", GhostNetFishingConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
-
-        builder.Entity<GhostNetStatus>(b =>
-        {
-            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetStatus), GhostNetFishingConsts.DbSchema);
-            b.ConfigureByConvention();
-        });
-
-        builder.Entity<Person>(b =>
-        {
-            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(Person), GhostNetFishingConsts.DbSchema);
-            b.ConfigureByConvention();
-
-            b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.Person);
-        });
-
         builder.Entity<GhostNet>(b =>
         {
             b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNet), GhostNetFishingConsts.DbSchema);
             b.ConfigureByConvention();
 
-            b.HasOne(x => x.GhostNetAndPerson).WithOne(x => x.Person);
+            b.HasMany(x => x.GhostNetAndPerson).WithOne(x => x.GhostNet).HasForeignKey(x => x.GhostNetId);
+            b.HasOne(x => x.GhostNetStatus).WithMany(x => x.GhostNets).HasForeignKey(x => x.GhostNetStatusId);
+        });
+
+        builder.Entity<GhostNetStatus>(b =>
+        {
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetStatus), GhostNetFishingConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasMany(x => x.GhostNets).WithOne(x => x.GhostNetStatus).HasForeignKey(x => x.GhostNetStatusId);
         });
 
         builder.Entity<GhostNetAndPerson>(b =>
@@ -117,10 +104,25 @@ public class GhostNetFishingDbContext :
             b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetAndPerson), GhostNetFishingConsts.DbSchema);
             b.ConfigureByConvention();
 
-            b.HasOne(x => x.Person).WithOne(x => x.GhostNetAndPerson);
-            b.HasOne(x => x.GhostNet).WithOne(x => x.GhostNetAndPerson);
-            b.HasOne(x => x.GhostNetStatus).WithOne(x => x.GhostNetAndPersons);
+            b.HasOne(x => x.Person).WithMany(x => x.GhostNetAndPerson).HasForeignKey(x => x.PersonId);
+            b.HasOne(x => x.GhostNet).WithMany(x => x.GhostNetAndPerson).HasForeignKey(x => x.GhostNetId);
         });
 
+        builder.Entity<Person>(b =>
+        {
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(Person), GhostNetFishingConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasOne(x => x.PersonType).WithMany(x => x.Persons).HasForeignKey(x => x.PersonTypeId);
+            b.HasMany(x => x.GhostNetAndPerson).WithOne(x => x.Person).HasForeignKey(x => x.PersonId);
+        });
+
+        builder.Entity<PersonType>(b =>
+        {
+            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(PersonType), GhostNetFishingConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasMany(x => x.Persons).WithOne(x => x.PersonType).HasForeignKey(x => x.PersonTypeId);
+        });
     }
 }

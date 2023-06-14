@@ -1,4 +1,6 @@
-﻿using GhostNetFishing.GhostNetsAndPersonen;
+﻿using GhostNetFishing.GhostNetAndPersons;
+using GhostNetFishing.GhostNetStatuses;
+using System.Collections.Generic;
 using Volo.Abp.Domain.Entities;
 
 namespace GhostNetFishing.GhostNets
@@ -10,6 +12,6 @@ namespace GhostNetFishing.GhostNets
         public int GhostNetStatusId { get; set; }
         public GhostNetStatus GhostNetStatus { get; set; }
 
-        public GhostNetAndPerson GhostNetAndPerson { get; set; }
+        public ICollection<GhostNetAndPerson> GhostNetAndPerson { get; set; }
     }
 }
