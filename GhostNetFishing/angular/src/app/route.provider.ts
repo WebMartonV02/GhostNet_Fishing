@@ -15,6 +15,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
+      {
+        path: '/ghost-nets',
+        name: '::Menu:GhostNets',
+        iconClass: 'fa-regular fa-goal-net',
+        order: 2,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }

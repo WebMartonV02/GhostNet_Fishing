@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GhostNetFishing.Domain\GhostNetFishing.Domain.csproj" />
     <ProjectReference Include="..\GhostNetFishing.Application.Contracts\GhostNetFishing.Application.Contracts.csproj" />
+    <ProjectReference Include="..\GhostNetFishing.EntityFrameworkCore\GhostNetFishing.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,10 +21,6 @@
     <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="7.2.2" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="7.2.2" />
     <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="7.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GhostNets\" />
   </ItemGroup>
 
 </Project>

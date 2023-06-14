@@ -1,4 +1,8 @@
-﻿using Volo.Abp.Account;
+﻿using GhostNetFishing.GhostNets;
+using GhostNetFishing.Repositories.Common;
+using GhostNetFishing.Repositories.Common.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -27,5 +31,8 @@ public class GhostNetFishingApplicationModule : AbpModule
         {
             options.AddMaps<GhostNetFishingApplicationModule>();
         });
+
+        context.Services.AddTransient<IDefaultRepository<GhostNet>>(
+            sp => new DefaultRepository<GhostNet>()); //register ioc for generic solution
     }
 }

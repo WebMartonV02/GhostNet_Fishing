@@ -2,16 +2,16 @@
 using AutoMapper.QueryableExtensions;
 using GhostNetFishing.EntityFrameworkCore;
 using GhostNetFishing.Repositories.Common.Interfaces;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace GhostNetFishing.Repositories.Common
 {
-    public class DefaultRepository<TEntity> : EfCoreRepository<GhostNetFishingDbContext,TEntity>, IDefaultRepository<TEntity> where TEntity : class, IEntity<Guid>
+    public class DefaultRepository<TEntity> : EfCoreRepository<GhostNetFishingDbContext,TEntity>, IDefaultRepository<TEntity>, ITransientDependency where TEntity : class, IEntity<int>
     {
         private readonly IMapper _mapper;
 

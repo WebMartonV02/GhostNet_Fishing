@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GhostNetFishing.GhostNets;
 
 namespace GhostNetFishing;
 
@@ -6,8 +7,11 @@ public class GhostNetFishingApplicationAutoMapperProfile : Profile
 {
     public GhostNetFishingApplicationAutoMapperProfile()
     {
-        /* You can configure your AutoMapper mapping configuration here.
-         * Alternatively, you can split your mapping configurations
-         * into multiple profile classes for a better organization. */
+        CreateGhostNetMaps();
+    }
+
+    public void CreateGhostNetMaps()
+    {
+        CreateMap<GhostNet, GhostNetResultDto>();
     }
 }
