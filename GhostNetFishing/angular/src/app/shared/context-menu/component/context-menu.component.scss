@@ -1,0 +1,39 @@
+@import "../../../global-variables.scss";
+
+.context-menu
+{
+  &__container
+  {
+    position: absolute;
+    border-radius: 20px !important;
+    overflow: hidden;
+    padding: 10px 0px;
+    border: 1px solid $light-gray;
+    box-shadow: 2px 2px 8px 0px $light-gray;
+    background: $full-white;
+
+    &.hideContextMenu
+    {
+      display: none;
+    }
+  }
+
+  &__item
+  {
+    display: flex;
+    line-height: initial;
+    height: auto;
+    letter-spacing: 2px;
+    font-weight: 100;
+    margin: 5px 0px;
+    padding: 5px 10px;
+    align-items: center;
+    font-size: 0.9em;
+    text-transform: uppercase;
+
+    i
+    {
+      padding-right: 5px;
+    }
+  }
+}

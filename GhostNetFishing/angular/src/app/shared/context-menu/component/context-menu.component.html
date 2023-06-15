@@ -1,0 +1,11 @@
+<div class="context-menu__container"
+     [ngStyle]="{'left.px': coordinatePosition.X, 'top.px': coordinatePosition.Y}"
+     [ngClass]="{'hideContextMenu': !isShow}">
+  <a role="button"
+     class="dropdown-item context-menu__item"
+     *ngFor="let contextAction of availableContextActions"
+     (click)="OnContextActionClicked(contextAction)">
+    <i class="fa-solid fa-{{ contextAction.IconName }}"></i>
+    {{ contextAction.caption }}
+  </a>
+</div>

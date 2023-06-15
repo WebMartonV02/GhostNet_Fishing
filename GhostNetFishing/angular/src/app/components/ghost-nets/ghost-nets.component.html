@@ -1,1 +1,16 @@
-<p>ghost-nets works!</p>
+<p class="application-page-title">{{ '::Menu:GhostNets' | abpLocalization }}</p>
+
+<ngx-datatable (tableContextmenu)="OnTableContextMenu($event)"
+               [rows]="ghostNets.items"
+               [count]="ghostNets.totalCount"
+               [list]="listService"
+               default>
+  <ngx-datatable-column [name]="'::EstimetedSize' | abpLocalization"></ngx-datatable-column>
+  <ngx-datatable-column [name]="'::Status' | abpLocalization" ></ngx-datatable-column>
+  <ngx-datatable-column [name]="'::Location' | abpLocalization"></ngx-datatable-column>
+</ngx-datatable>
+
+<abp-context-menu [isShow]="isContextMenuOpened"
+                  [coordinatePosition]="coordinatePosition"
+                  [availableContextActions]="availableContextActions">
+</abp-context-menu>

@@ -13,5 +13,7 @@ public class GhostNetFishingApplicationAutoMapperProfile : Profile
     public void CreateGhostNetMaps()
     {
         CreateMap<GhostNet, GhostNetResultDto>();
+        CreateMap<GhostNet, GhostNet>();
+        CreateMap<GhostNetRequestDto, GhostNet>();
     }
 }

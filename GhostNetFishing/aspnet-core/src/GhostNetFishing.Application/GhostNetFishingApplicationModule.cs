@@ -2,6 +2,7 @@
 using GhostNetFishing.Repositories.Common;
 using GhostNetFishing.Repositories.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Cryptography.X509Certificates;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
@@ -32,7 +33,6 @@ public class GhostNetFishingApplicationModule : AbpModule
             options.AddMaps<GhostNetFishingApplicationModule>();
         });
 
-        context.Services.AddTransient<IDefaultRepository<GhostNet>>(
-            sp => new DefaultRepository<GhostNet>()); //register ioc for generic solution
+        context.Services.AddTransient<DefaultRepository<GhostNet>>(); //register ioc for generic solution
     }
 }
