@@ -1,0 +1,16 @@
+<p class="application-page-title">{{ '::Menu:Persons' | abpLocalization }}</p>
+
+<ngx-datatable (tableContextmenu)="OnTableContextMenu($event)"
+               [rows]="persons.items"
+               [count]="persons.totalCount"
+               [list]="listService"
+               default>
+  <ngx-datatable-column [name]="'::FullName' | abpLocalization"></ngx-datatable-column>
+  <ngx-datatable-column [name]="'::TelefonNummer' | abpLocalization" ></ngx-datatable-column>
+  <ngx-datatable-column [name]="'::Type' | abpLocalization"></ngx-datatable-column>
+</ngx-datatable>
+
+<abp-context-menu [isShow]="isContextMenuOpened"
+                  [coordinatePosition]="coordinatePosition"
+                  [availableContextActions]="availableContextActions">
+</abp-context-menu>

@@ -12,5 +12,29 @@ namespace GhostNetFishing.Persons
         public int PersonTypeId { get; set; }
         public PersonType PersonType { get; set; }
         public ICollection<GhostNetAndPerson> GhostNetAndPerson { get; set; }
-    }
+
+        public Person() { }
+
+        public Person(
+            string name, 
+            string telefonNummer, 
+            int personTypeId)
+        {
+            Name = name;
+            TelefonNummer = telefonNummer;
+            PersonTypeId = personTypeId;
+        }
+
+        public Person Update(
+            string name,
+            string telefonNummer,
+            int personTypeId)
+        {
+            Name = name;
+            TelefonNummer = telefonNummer;
+            PersonTypeId = personTypeId;
+
+            return this;
+        }
+}
 }

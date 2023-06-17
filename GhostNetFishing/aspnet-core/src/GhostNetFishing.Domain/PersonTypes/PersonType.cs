@@ -9,5 +9,10 @@ namespace GhostNetFishing.PersonTypes
         public string Type { get; set; }
 
         public ICollection<Person> Persons { get; set; }
+
+        public PersonType(string type)
+        {
+            Type = type;
+        }
     }
 }

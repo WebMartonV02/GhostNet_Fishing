@@ -22,6 +22,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         layout: eLayoutType.application,
       },
+      {
+        path: '/persons',
+        name: '::Menu:Persons',
+        iconClass: 'fa-solid fa-user',
+        order: 3,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }

@@ -9,5 +9,10 @@ namespace GhostNetFishing.GhostNetStatuses
         public string Type { get; set; }
 
         public ICollection<GhostNet> GhostNets { get; set; }
+
+        public GhostNetStatus(string type)
+        {
+            Type = type;
+        }
     }
 }

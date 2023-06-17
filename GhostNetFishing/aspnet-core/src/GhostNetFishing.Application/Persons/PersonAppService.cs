@@ -1,24 +1,22 @@
 ﻿using GhostNetFishing.Repositories.Common.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
+using EntityClass = GhostNetFishing.Persons.Person;
+using EntityRequestClassDto = GhostNetFishing.Persons.PersonRequestDto;
+using EntityResultClassDto = GhostNetFishing.Persons.PersonResultDto;
 
-using EntityClass = GhostNetFishing.GhostNets.GhostNet;
-using EntityRequestClassDto = GhostNetFishing.GhostNets.GhostNetRequestDto;
-using EntityResultClassDto = GhostNetFishing.GhostNets.GhostNetResultDto;
-
-namespace GhostNetFishing.GhostNets
+namespace GhostNetFishing.Persons
 {
-    public class GhostNetsApplicationService : GhostNetFishingAppService, ITransientDependency
+    public class PersonAppService : GhostNetFishingAppService, ITransientDependency
     {
         public readonly IDefaultRepository<EntityClass> _defaultRepository;
 
-        public GhostNetsApplicationService(IDefaultRepository<EntityClass> defaultRepository)
+        public PersonAppService(IDefaultRepository<EntityClass> defaultRepository)
         {
             _defaultRepository = defaultRepository;
         }
@@ -47,9 +45,9 @@ namespace GhostNetFishing.GhostNets
 
         public async Task CreateAsync(EntityRequestClassDto requestDto)
         {
-            var entityToBeCreated = new EntityClass(requestDto.EstimatedSize, requestDto.Standort, requestDto.GhostNetStatusId);
+            var entityToBeCreated = new EntityClass(requestDto.Name, requestDto.TelefonNummer, requestDto.PersonTypeId);
 
-            await _defaultRepository.InsertAsync(entityToBeCreated);   
+            await _defaultRepository.InsertAsync(entityToBeCreated);
         }
 
         public async Task UpdateAsync(EntityRequestClassDto requestDto)
@@ -58,7 +56,7 @@ namespace GhostNetFishing.GhostNets
 
             if (storedEntity == null) throw new UserFriendlyException($"Ghostnet with the following unique identifier is not existing: {requestDto.Id}");
 
-            var updatedEntity = storedEntity.Update(requestDto.EstimatedSize, requestDto.Standort, requestDto.GhostNetStatusId);
+            var updatedEntity = storedEntity.Update(requestDto.Name, requestDto.TelefonNummer, requestDto.PersonTypeId);
 
             await _defaultRepository.UpdateAsync(updatedEntity);
         }
@@ -69,5 +67,6 @@ namespace GhostNetFishing.GhostNets
 
             await _defaultRepository.DeleteAsync(entityToBeDeleted);
         }
+
     }
 }

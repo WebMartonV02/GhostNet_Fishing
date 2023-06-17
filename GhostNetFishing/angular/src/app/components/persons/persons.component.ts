@@ -1,30 +1,30 @@
 import { ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { GhostNetResultDto, GhostNetsService } from '../../proxy/ghost-nets';
+import { PersonResultDto, PersonService } from '../../proxy/persons';
 import { ContextMenuActionModel } from '../../shared/context-menu/models/context-menu-action.model';
 import { ContextMenuActionFactory } from '../../shared/context-menu/services/context-menu-action.factory';
 import { CoordinatePosition } from '../../shared/models/coordinate-position.model';
 
 @Component({
-  selector: 'app-ghost-nets',
-  templateUrl: './ghost-nets.component.html',
-  styleUrls: ['./ghost-nets.component.scss'],
+  selector: 'app-persons',
+  templateUrl: './persons.component.html',
+  styleUrls: ['./persons.component.scss'],
   providers: [ListService]
 })
-export class GhostNetsComponent implements OnInit, OnDestroy
+export class PersonsComponent implements OnInit, OnDestroy
 {
-  public ghostNets: PagedResultDto<GhostNetResultDto> = { items: [], totalCount: 0 } as PagedResultDto<GhostNetResultDto>;
+  public persons: PagedResultDto<PersonResultDto> = { items: [], totalCount: 0 } as PagedResultDto<PersonResultDto>;
   public isContextMenuOpened: boolean = false;
   public availableContextActions: Array<ContextMenuActionModel> = new Array<ContextMenuActionModel>();
   public coordinatePosition: CoordinatePosition = new CoordinatePosition();
 
-  private _selectedElementByContextMenu: GhostNetResultDto;
+  private _selectedElementByContextMenu: PersonResultDto;
   private _componentDestroyed$: Subject<void> = new Subject;
 
   constructor(
     public readonly listService: ListService,
-    private _ghostNetsService: GhostNetsService,
+    private _personService: PersonService,
     private _localizationService: LocalizationService) { }
 
   ngOnInit(): void
@@ -46,13 +46,13 @@ export class GhostNetsComponent implements OnInit, OnDestroy
   {
     var listRequestDto: PagedAndSortedResultRequestDto = {} as PagedAndSortedResultRequestDto;
 
-    const streamCreator = (query) => this._ghostNetsService.getList({ ...query, ...listRequestDto });
+    const streamCreator = (query) => this._personService.getList({ ...query, ...listRequestDto });
 
     this.listService.hookToQuery(streamCreator)
       .pipe(takeUntil(this._componentDestroyed$))
-      .subscribe((payload: PagedResultDto<GhostNetResultDto>) =>
+      .subscribe((payload: PagedResultDto<PersonResultDto>) =>
       {
-        this.ghostNets = payload;
+        this.persons = payload;
       });
   }
 
