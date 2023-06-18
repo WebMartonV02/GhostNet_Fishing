@@ -10,5 +10,28 @@ namespace GhostNetFishing.GhostNetAndPersons
         public GhostNet GhostNet { get; set; }
         public int PersonId { get; set; }
         public Person Person { get; set; }
+
+        public GhostNetAndPerson(int ghostNetId) 
+        {
+            GhostNetId = ghostNetId;
+        }
+
+        public GhostNetAndPerson(
+            int ghostNetId,
+            int personId)
+        {
+            GhostNetId = ghostNetId;
+            PersonId = personId;
+        }
+
+        public GhostNetAndPerson Update(
+            int ghostNetId,
+            int personId)
+        {
+            GhostNetId = ghostNetId;
+            PersonId = personId;
+
+            return this;
+        }
     }
 }

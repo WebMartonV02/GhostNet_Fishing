@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using GhostNetFishing.GhostNetAndPersons;
 using GhostNetFishing.GhostNets;
+using GhostNetFishing.GhostNetsAndPersons;
 using GhostNetFishing.GhostNetStatuses;
 using GhostNetFishing.Persons;
 using GhostNetFishing.PersonTypes;
@@ -12,9 +14,10 @@ public class GhostNetFishingApplicationAutoMapperProfile : Profile
     {
         CreateGhostNetMaps();
         CreatePersonMaps();
+        CreateGhostNetsAndPersonsMaps();
     }
 
-    public void CreateGhostNetMaps()
+    private void CreateGhostNetMaps()
     {
         CreateMap<GhostNet, GhostNetResultDto>();
         CreateMap<GhostNet, GhostNet>();
@@ -23,12 +26,22 @@ public class GhostNetFishingApplicationAutoMapperProfile : Profile
         CreateMap<GhostNetStatus, GhostNetStatusResultDto>();
     }
 
-    public void CreatePersonMaps()
+    private void CreatePersonMaps()
     {
         CreateMap<Person, PersonResultDto>();
         CreateMap<Person, Person>();
         CreateMap<PersonRequestDto, Person>();
 
         CreateMap<PersonType, PersonTypeResultDto>();
+    }
+
+    private void CreateGhostNetsAndPersonsMaps()
+    {
+        CreateMap<GhostNetAndPerson, GhostNetAndPersonResultDto>();
+        CreateMap<GhostNetAndPerson, GhostNetAndPerson>();
+        CreateMap<GhostNetAndPersonRequestDto, GhostNetAndPerson>();
+        CreateMap<GhostNetAndPersonResultDomainModel, GhostNetAndPersonResultDto>();
+        CreateMap<GhostNetAndPerson, GhostNetAndPersonResultDomainModel>()
+            .ForMember(dst => dst.GhostNet, opt => opt.MapFrom(src => src.GhostNet));
     }
 }

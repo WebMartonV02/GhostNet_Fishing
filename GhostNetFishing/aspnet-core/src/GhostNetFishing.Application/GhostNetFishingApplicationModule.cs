@@ -1,4 +1,5 @@
-﻿using GhostNetFishing.GhostNets;
+﻿using GhostNetFishing.GhostNetAndPersons;
+using GhostNetFishing.GhostNets;
 using GhostNetFishing.Persons;
 using GhostNetFishing.Repositories.Common;
 using GhostNetFishing.Repositories.Common.Interfaces;
@@ -36,5 +37,6 @@ public class GhostNetFishingApplicationModule : AbpModule
         //context.Services.AddTransient<DefaultRepository<GhostNet>>(); //register ioc for generic solution
         context.Services.AddTransient<IDefaultRepository<GhostNet>, DefaultRepository<GhostNet>>(); //register ioc for generic solution -- try that out
         context.Services.AddTransient<IDefaultRepository<Person>, DefaultRepository<Person>>(); //register ioc for generic solution -- try that out
+        context.Services.AddTransient<IDefaultRepository<GhostNetAndPerson>, DefaultRepository<GhostNetAndPerson>>(); //register ioc for generic solution -- try that out
     }
 }

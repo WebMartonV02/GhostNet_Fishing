@@ -35,6 +35,11 @@ const routes: Routes = [
     pathMatch: 'full',
     loadChildren: () => import('././components/persons/persons.module').then(m => m.PersonsModule),
   },
+  {
+    path: 'ghost-net-persons',
+    pathMatch: 'full',
+    loadChildren: () => import('././components/ghost-net-and-person/ghost-net-persons.module').then(m => m.GhostNetPersonsModule),
+  },
 ];
 
 @NgModule({

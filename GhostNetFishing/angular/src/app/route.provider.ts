@@ -29,6 +29,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 3,
         layout: eLayoutType.application,
       },
+      {
+        path: '/ghost-net-persons',
+        name: '::Menu:GhostNetsAndPersons',
+        iconClass: 'fa-solid fa-user',
+        order: 4,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }
