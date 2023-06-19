@@ -47,7 +47,7 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
   {
     var listRequestDto: PagedAndSortedResultRequestDto = {} as PagedAndSortedResultRequestDto;
 
-    const streamCreator = (query) => this._ghostNetsAndPersonsService.getList({ ...query, ...listRequestDto });
+    const streamCreator = (query) => this._ghostNetsAndPersonsService.getListWithUnassignedGhostNets({ ...query, ...listRequestDto });
 
     this.listService.hookToQuery(streamCreator)
       .pipe(takeUntil(this._componentDestroyed$))

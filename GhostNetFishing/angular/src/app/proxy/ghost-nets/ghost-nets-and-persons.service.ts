@@ -35,10 +35,10 @@ export class GhostNetsAndPersonsService {
     { apiName: this.apiName,...config });
   
 
-  getList = (requestDto: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
+  getListWithUnassignedGhostNets = (requestDto: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<GhostNetAndPersonResultDto>>({
       method: 'GET',
-      url: '/api/app/ghost-nets-and-persons',
+      url: '/api/app/ghost-nets-and-persons/with-unassigned-ghost-nets',
       params: { sorting: requestDto.sorting, skipCount: requestDto.skipCount, maxResultCount: requestDto.maxResultCount },
     },
     { apiName: this.apiName,...config });

@@ -8,7 +8,7 @@ namespace GhostNetFishing.GhostNets
 {
     public class GhostNet : Entity<int>
     {
-        public string Standort { get; set; }
+        public string Location { get; set; }
         public string EstimatedSize { get; set; }
         public int GhostNetStatusId { get; set; }
         public GhostNetStatus GhostNetStatus { get; set; }
@@ -16,21 +16,21 @@ namespace GhostNetFishing.GhostNets
         public ICollection<GhostNetAndPerson> GhostNetAndPerson { get; set; }
 
         public GhostNet(
-            string standort,
+            string location,
             string estimatedSize,
             int ghostNetStatusId)
         {
-            Standort = standort;
+            Location = location;
             EstimatedSize = estimatedSize;
             GhostNetStatusId = ghostNetStatusId;
         }
 
         public GhostNet Update(
-            string standort,
+            string location,
             string estimatedSize,
             int ghostNetStatusId)
         {
-            Standort = standort;
+            Location = location;
             EstimatedSize = estimatedSize;
             GhostNetStatusId = ghostNetStatusId;
 

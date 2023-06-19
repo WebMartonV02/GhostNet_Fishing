@@ -47,7 +47,7 @@ namespace GhostNetFishing.GhostNets
 
         public async Task CreateAsync(EntityRequestClassDto requestDto)
         {
-            var entityToBeCreated = new EntityClass(requestDto.EstimatedSize, requestDto.Standort, requestDto.GhostNetStatusId);
+            var entityToBeCreated = new EntityClass(requestDto.EstimatedSize, requestDto.Location, requestDto.GhostNetStatusId);
 
             await _defaultRepository.InsertAsync(entityToBeCreated);   
         }
@@ -58,7 +58,7 @@ namespace GhostNetFishing.GhostNets
 
             if (storedEntity == null) throw new UserFriendlyException($"Ghostnet with the following unique identifier is not existing: {requestDto.Id}");
 
-            var updatedEntity = storedEntity.Update(requestDto.EstimatedSize, requestDto.Standort, requestDto.GhostNetStatusId);
+            var updatedEntity = storedEntity.Update(requestDto.EstimatedSize, requestDto.Location, requestDto.GhostNetStatusId);
 
             await _defaultRepository.UpdateAsync(updatedEntity);
         }
