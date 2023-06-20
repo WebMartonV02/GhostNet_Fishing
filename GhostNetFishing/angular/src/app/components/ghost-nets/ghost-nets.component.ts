@@ -1,10 +1,13 @@
 import { ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { GhostNetStatusService } from '../../proxy/ghost-net-statuses';
 import { GhostNetResultDto, GhostNetsService } from '../../proxy/ghost-nets';
 import { ContextMenuActionModel } from '../../shared/context-menu/models/context-menu-action.model';
 import { ContextMenuActionFactory } from '../../shared/context-menu/services/context-menu-action.factory';
 import { CoordinatePosition } from '../../shared/models/coordinate-position.model';
+import { GhostNetRequestDtoFactory } from './factories/ghost-net-request-dto.factory';
+import { GhostNetStatusEnum } from './models/ghost-net-status-enum.model';
 
 @Component({
   selector: 'app-ghost-nets',
@@ -25,6 +28,8 @@ export class GhostNetsComponent implements OnInit, OnDestroy
   constructor(
     public readonly listService: ListService,
     private _ghostNetsService: GhostNetsService,
+    private _ghostNetStatusService: GhostNetStatusService,
+    private _ghostNetRequestDtoFactory: GhostNetRequestDtoFactory,
     private _localizationService: LocalizationService) { }
 
   ngOnInit(): void
@@ -42,6 +47,18 @@ export class GhostNetsComponent implements OnInit, OnDestroy
     this._componentDestroyed$.complete();
   }
 
+  public OnTableContextMenu(event): void
+  {
+    this.coordinatePosition.X = event.event.pageX;
+    this.coordinatePosition.Y = event.event.pageY;
+    this.isContextMenuOpened = true;
+
+    this._selectedElementByContextMenu = event.content;
+
+    event.event.preventDefault();
+    event.event.stopPropagation();
+  }
+
   private HookToDataTable(): void
   {
     var listRequestDto: PagedAndSortedResultRequestDto = {} as PagedAndSortedResultRequestDto;
@@ -56,16 +73,15 @@ export class GhostNetsComponent implements OnInit, OnDestroy
       });
   }
 
-  public OnTableContextMenu(event): void
+  private SetStatusToGemeldet(): void
   {
-    this.coordinatePosition.X = event.event.pageX;
-    this.coordinatePosition.Y = event.event.pageY;
-    this.isContextMenuOpened = true;
+    let selectedGhostItem = this._selectedElementByContextMenu;
 
-    this._selectedElementByContextMenu = event.content;
+    let updatedGhostNet = this._ghostNetRequestDtoFactory.Create(selectedGhostItem, GhostNetStatusEnum.Gemeldet);
 
-    event.event.preventDefault();
-    event.event.stopPropagation();
+    this._ghostNetsService.update(updatedGhostNet);
+
+    this.listService.getWithoutPageReset();
   }
 
   private InitiateContextMenu(): void

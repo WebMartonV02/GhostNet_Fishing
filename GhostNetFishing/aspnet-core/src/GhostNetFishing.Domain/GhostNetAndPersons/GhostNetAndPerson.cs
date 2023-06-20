@@ -11,9 +11,10 @@ namespace GhostNetFishing.GhostNetAndPersons
         public int PersonId { get; set; }
         public Person Person { get; set; }
 
-        public GhostNetAndPerson(int ghostNetId) 
+        public GhostNetAndPerson(int ghostNetId, GhostNet ghostNet) 
         {
             GhostNetId = ghostNetId;
+            GhostNet = ghostNet;
         }
 
         public GhostNetAndPerson(

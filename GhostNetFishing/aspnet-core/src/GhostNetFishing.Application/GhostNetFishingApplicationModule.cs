@@ -1,8 +1,8 @@
-﻿using GhostNetFishing.GhostNetAndPersons;
+﻿using GhostNetFishing.Common.Interfaces;
+using GhostNetFishing.GhostNetAndPersons;
 using GhostNetFishing.GhostNets;
 using GhostNetFishing.Persons;
 using GhostNetFishing.Repositories.Common;
-using GhostNetFishing.Repositories.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;

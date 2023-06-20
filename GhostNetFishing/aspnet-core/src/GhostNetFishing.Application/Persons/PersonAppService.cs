@@ -1,4 +1,4 @@
-﻿using GhostNetFishing.Repositories.Common.Interfaces;
+﻿using GhostNetFishing.Common.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

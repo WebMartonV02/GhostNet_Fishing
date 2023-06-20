@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using GhostNetFishing.Common.Interfaces;
 using GhostNetFishing.EntityFrameworkCore;
-using GhostNetFishing.Repositories.Common.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;

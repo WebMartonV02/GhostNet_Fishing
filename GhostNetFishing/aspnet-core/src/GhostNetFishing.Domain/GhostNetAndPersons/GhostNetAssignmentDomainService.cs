@@ -1,4 +1,5 @@
-﻿using GhostNetFishing.GhostNetAndPersons.Interfaces;
+﻿using GhostNetFishing.Common.Interfaces;
+using GhostNetFishing.GhostNetAndPersons.Interfaces;
 using GhostNetFishing.GhostNets;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,12 @@ namespace GhostNetFishing.GhostNetAndPersons
 {
     public class GhostNetAssignmentDomainService : IGhostNetAssignmentDomainService, ITransientDependency
     {
-        private readonly IRepository<GhostNet> _ghostNetRepository;
+        private readonly IDefaultRepository<GhostNet> _ghostNetRepository;
         private readonly IRepository<GhostNetAndPerson> _ghostNetAndPersonRepository;
         private readonly IObjectMapper _objectMapper;
 
         public GhostNetAssignmentDomainService(
-            IRepository<GhostNet> ghostNetRepository,
+            IDefaultRepository<GhostNet> ghostNetRepository,
             IRepository<GhostNetAndPerson> ghostNetAndPersonRepository,
             IObjectMapper objectMapper)
         {
@@ -29,7 +30,7 @@ namespace GhostNetFishing.GhostNetAndPersons
         public async Task<List<GhostNet>> GetAllUnassginedGhostNet()
         {
             var allGhostNetsWithAssignment = await _ghostNetAndPersonRepository.GetListAsync();
-            var allGhostNets = await _ghostNetRepository.GetListAsync();
+            var allGhostNets = await _ghostNetRepository.GetListWithNestedsAsync();
 
             var result = allGhostNets.Where(x => !allGhostNetsWithAssignment.Select(x => x.GhostNetId).Contains(x.Id)).ToList();
 
@@ -42,7 +43,7 @@ namespace GhostNetFishing.GhostNetAndPersons
 
             foreach (var ghostNet in unassigndeGhostNets)
             {
-                var ghostNetPersonWithoutAssignedPerson = new GhostNetAndPerson(ghostNet.Id);
+                var ghostNetPersonWithoutAssignedPerson = new GhostNetAndPerson(ghostNet.Id, ghostNet);
 
                 var mappedDto = _objectMapper.Map<GhostNetAndPerson, GhostNetAndPersonResultDomainModel>(ghostNetPersonWithoutAssignedPerson);
 

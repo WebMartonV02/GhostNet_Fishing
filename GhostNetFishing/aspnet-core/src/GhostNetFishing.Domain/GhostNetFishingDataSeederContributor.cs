@@ -69,7 +69,7 @@ namespace GhostNetFishing
             if (await _ghostNetStatusRepository.GetCountAsync() > 0) return;
 
             gemeldeteGhostNetStatus = await _ghostNetStatusRepository.InsertAsync(new GhostNetStatus("Gemeldet"), autoSave: true);
-            bergungBevorstehendeGhostNetStatus = await _ghostNetStatusRepository.InsertAsync(new GhostNetStatus("Bergung bevorstehend"), autoSave: true);
+            bergungBevorstehendeGhostNetStatus = await _ghostNetStatusRepository.InsertAsync(new GhostNetStatus("BergungBevorstehend"), autoSave: true);
             beborgenGhostNetStatus = await _ghostNetStatusRepository.InsertAsync(new GhostNetStatus("Geborgen"), autoSave: true);
             verschollenGhostNetStatus = await _ghostNetStatusRepository.InsertAsync(new GhostNetStatus("Verschollen"), autoSave: true);
         }

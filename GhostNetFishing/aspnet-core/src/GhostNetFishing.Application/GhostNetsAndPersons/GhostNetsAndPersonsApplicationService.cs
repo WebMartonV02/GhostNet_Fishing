@@ -1,7 +1,7 @@
-﻿using GhostNetFishing.GhostNetAndPersons;
+﻿using GhostNetFishing.Common.Interfaces;
+using GhostNetFishing.GhostNetAndPersons;
 using GhostNetFishing.GhostNetAndPersons.Interfaces;
 using GhostNetFishing.GhostNetsAndPersons;
-using GhostNetFishing.Repositories.Common.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -43,13 +43,13 @@ namespace GhostNetFishing.GhostNets
 
             var entities = (await _defaultRepository.GetListWithNestedsAsync()).ToList();
 
-            var totalCount = entities.Count();
-
             var entitiesForTable = entities.Skip(requestDto.SkipCount).Take(requestDto.MaxResultCount).ToList();
 
             var entityResultDtos = ObjectMapper.Map<List<EntityClass>, List<EntityResultClassDto>>(entitiesForTable);
 
             entityResultDtos.AddRange(mappedDtoToResultDto);
+
+            var totalCount = entityResultDtos.Count();
 
             return new PagedResultDto<EntityResultClassDto>(totalCount, entityResultDtos);
         }
