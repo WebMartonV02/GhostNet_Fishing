@@ -28,7 +28,7 @@ const routes: Routes = [
   {
     path: 'ghost-nets',
     pathMatch: 'full',
-    loadChildren: () => import('././components/ghost-nets/ghost-nets.module').then(m => m.GhostNetsModule),
+    loadChildren: () => import('././components/ghost-nets/components/ghost-net/ghost-nets.module').then(m => m.GhostNetsModule),
   },
   {
     path: 'persons',
@@ -39,6 +39,11 @@ const routes: Routes = [
     path: 'ghost-net-persons',
     pathMatch: 'full',
     loadChildren: () => import('././components/ghost-net-and-person/ghost-net-persons.module').then(m => m.GhostNetPersonsModule),
+  },
+  {
+    path: 'ghost-net-details',
+    pathMatch: 'full',
+    loadChildren: () => import('././components/ghost-nets/components/ghost-net-details/ghost-net-details.module').then(m => m.GhostNetDetailsModule),
   },
 ];
 

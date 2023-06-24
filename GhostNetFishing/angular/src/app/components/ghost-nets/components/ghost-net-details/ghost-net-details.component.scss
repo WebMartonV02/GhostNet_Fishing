@@ -1,0 +1,40 @@
+.template-selection__container
+{
+  padding: 20px;
+}
+
+.template-selection__header
+{
+  text-align: center;
+  font-size: 2em;
+  margin: 0;
+}
+
+.input-group
+{
+  width: 85%;
+  margin: auto;
+}
+
+.input-group-text
+{
+  padding: 2px 10px;
+}
+
+.bi
+{
+  font-size: 2em;
+}
+
+.control-button__container
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.put-aside-select, .default-select
+{
+  width: 90%;
+  font-size: 1.4em;
+}

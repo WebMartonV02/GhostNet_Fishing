@@ -9,6 +9,14 @@ export class GhostNetStatusService {
   apiName = 'Default';
   
 
+  getAllWithNested = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, GhostNetStatusResultDto[]>({
+      method: 'GET',
+      url: '/api/app/ghost-net-status/with-nested',
+    },
+    { apiName: this.apiName,...config });
+  
+
   getByGhostNetStatusId = (ghostNetStatusId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, GhostNetStatusResultDto>({
       method: 'GET',

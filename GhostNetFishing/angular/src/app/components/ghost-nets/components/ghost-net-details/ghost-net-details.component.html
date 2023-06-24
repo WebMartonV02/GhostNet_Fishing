@@ -1,0 +1,53 @@
+<abp-modal>
+  <div class="dialog">
+    <div class="dialog-header" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+      <div class="dialog-header_title">
+        <i class="fa fa-{{ (selectedGhostNet.id ? 'pen' : 'plus' ) }} dialog-header_action-type"></i>
+        <div class="dialog-header_title-container">
+          <span class="dialog-header_title-main">{{ ('::GhostNets' ) | abpLocalization }}</span>
+          <span *ngIf="selectedGhostNet?.id" class="dialog-header_title-sub">{{ selectedGhostNet.location }}</span>
+        </div>
+      </div>
+      <div class="dialog-header_actions">
+        <i class="fa fa-xmark dialog-header_action" (click)="Close()" abpClose></i>
+      </div>
+    </div>
+
+    <section class="detail-dialog-content">
+      <form class="form-container" #formControl="ngForm" (ngSubmit)="Save()">
+        <section class="form-section">
+          <div class="form-group form-element">
+            <label for="location">Location</label><span> * </span>
+            <input type="text" id="location" class="form-control" [(ngModel)]="requestModel.location" name="location" autofocus />
+          </div>
+          <div class="form-group form-element">
+            <label for="estimatedSize">Estimated Size</label><span> * </span>
+            <input type="number" id="estimatedSize" class="form-control" [(ngModel)]="requestModel.estimatedSize" name="estimatedSize"/>
+          </div>
+          <div class="form-group form-element">
+            <label for="status">Status</label><span> * </span>
+            <ng-select  class="form-control"
+                        [items]="ghostNetStatuses"
+                        bindLabel="type"
+                        bindValue="id"
+                        [(ngModel)]="requestModel.ghostNetStatusId"
+                        name="status">
+            </ng-select>
+          </div>
+        </section>
+
+        <div class="details-action-buttons">
+          <button type="button" class="details-action-button" (click)="Save()">
+            <i class="fa-regular fa-circle-check"></i>
+            {{ '::Save' | abpLocalization }}
+          </button>
+
+          <button type="button" class="details-action-button" (click)="Close()" abpClose>
+            <i class="fa-regular fa-circle-xmark"></i>
+            {{ '::Cancel' | abpLocalization }}
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</abp-modal>

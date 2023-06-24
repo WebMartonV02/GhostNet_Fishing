@@ -58,7 +58,7 @@ namespace GhostNetFishing.GhostNets
 
             if (storedEntity == null) throw new UserFriendlyException($"Ghostnet with the following unique identifier is not existing: {requestDto.Id}");
 
-            var updatedEntity = storedEntity.Update(requestDto.EstimatedSize, requestDto.Location, requestDto.GhostNetStatusId);
+            var updatedEntity = storedEntity.Update(requestDto.Location, requestDto.EstimatedSize, requestDto.GhostNetStatusId);
 
             await _defaultRepository.UpdateAsync(updatedEntity);
         }

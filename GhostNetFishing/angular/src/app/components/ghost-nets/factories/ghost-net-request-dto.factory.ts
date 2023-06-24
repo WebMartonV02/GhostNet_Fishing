@@ -8,10 +8,11 @@ export class GhostNetRequestDtoFactory
   {
     let result: GhostNetRequestDto = {} as GhostNetRequestDto;
 
+    result.id = selectedGhostItem.id;
     result.estimatedSize = selectedGhostItem.estimatedSize;
     result.location = selectedGhostItem.location;
     result.ghostNetStatusId = selectedStatusId;
 
-    return result
+    return result;
   }
 }
