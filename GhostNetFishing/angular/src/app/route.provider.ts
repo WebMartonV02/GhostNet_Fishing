@@ -1,4 +1,4 @@
-import { RoutesService, eLayoutType } from '@abp/ng.core';
+import { RoutesService, eLayoutType, PermissionGuard } from '@abp/ng.core';
 import { APP_INITIALIZER } from '@angular/core';
 
 export const APP_ROUTE_PROVIDER = [
@@ -21,6 +21,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fa-regular fa-goal-net',
         order: 2,
         layout: eLayoutType.application,
+        requiredPolicy: 'GhostNetFishing.GhostNet'
       },
       {
         path: '/persons',
@@ -28,6 +29,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fa-solid fa-user',
         order: 3,
         layout: eLayoutType.application,
+        requiredPolicy: 'GhostNetFishing.GhostNet'
       },
       {
         path: '/ghost-net-persons',
@@ -35,6 +37,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fa-solid fa-user',
         order: 4,
         layout: eLayoutType.application,
+        requiredPolicy: 'GhostNetFishing.GhostNet'
       },
     ]);
   };
