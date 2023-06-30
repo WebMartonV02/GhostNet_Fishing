@@ -104,25 +104,25 @@ public class GhostNetFishingDbContext :
             b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetAndPerson), GhostNetFishingConsts.DbSchema);
             b.ConfigureByConvention();
 
-            b.HasOne(x => x.Person).WithMany(x => x.GhostNetAndPerson).HasForeignKey(x => x.PersonId);
+            //b.HasOne(x => x.Person).WithMany(x => x.GhostNetAndPerson).HasForeignKey(x => x.PersonId);
             b.HasOne(x => x.GhostNet).WithMany(x => x.GhostNetAndPerson).HasForeignKey(x => x.GhostNetId);
         });
 
-        builder.Entity<Person>(b =>
-        {
-            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(Person), GhostNetFishingConsts.DbSchema);
-            b.ConfigureByConvention();
+        //builder.Entity<Person>(b =>
+        //{
+        //    b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(Person), GhostNetFishingConsts.DbSchema);
+        //    b.ConfigureByConvention();
 
-            b.HasOne(x => x.PersonType).WithMany(x => x.Persons).HasForeignKey(x => x.PersonTypeId);
-            b.HasMany(x => x.GhostNetAndPerson).WithOne(x => x.Person).HasForeignKey(x => x.PersonId);
-        });
+        //    b.HasOne(x => x.PersonType).WithMany(x => x.Persons).HasForeignKey(x => x.PersonTypeId);
+        //    b.HasMany(x => x.GhostNetAndPerson).WithOne(x => x.Person).HasForeignKey(x => x.PersonId);
+        //});
 
-        builder.Entity<PersonType>(b =>
-        {
-            b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(PersonType), GhostNetFishingConsts.DbSchema);
-            b.ConfigureByConvention();
+        //builder.Entity<PersonType>(b =>
+        //{
+        //    b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(PersonType), GhostNetFishingConsts.DbSchema);
+        //    b.ConfigureByConvention();
 
-            b.HasMany(x => x.Persons).WithOne(x => x.PersonType).HasForeignKey(x => x.PersonTypeId);
-        });
+        //    b.HasMany(x => x.Persons).WithOne(x => x.PersonType).HasForeignKey(x => x.PersonTypeId);
+        //});
     }
 }

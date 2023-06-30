@@ -1,4 +1,4 @@
-import { ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import { ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto, PermissionService } from '@abp/ng.core';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -36,7 +36,8 @@ export class GhostNetsComponent implements OnInit, OnDestroy
     private _ghostNetModalService: NgbModal,
     private _ghostNetStatusService: GhostNetStatusService,
     private _ghostNetRequestDtoFactory: GhostNetRequestDtoFactory,
-    private _localizationService: LocalizationService) { }
+    private _localizationService: LocalizationService,
+    private _permissionService: PermissionService) { }
 
   ngOnInit(): void
   {
@@ -45,6 +46,13 @@ export class GhostNetsComponent implements OnInit, OnDestroy
     this.listService.getWithoutPageReset();
 
     this.InitiateContextMenu();
+
+    this._permissionService.getGrantedPolicy$("GhostNetFishing.GhostNet.Recovering")
+      .pipe(takeUntil(this._componentDestroyed$))
+      .subscribe((payload: boolean) =>
+      {
+        console.log(payload);
+      })
   }
 
   ngOnDestroy(): void

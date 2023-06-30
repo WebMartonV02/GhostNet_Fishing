@@ -1,4 +1,4 @@
-import { ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import { ConfigStateService, CurrentUserDto, ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GhostNetsAndPersonsService } from '../../proxy/ghost-nets';
@@ -22,11 +22,13 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
 
   private _selectedElementByContextMenu: GhostNetAndPersonResultDto;
   private _componentDestroyed$: Subject<void> = new Subject;
+  private _currentUserDto: CurrentUserDto;
 
   constructor(
     public readonly listService: ListService,
     private _ghostNetsAndPersonsService: GhostNetsAndPersonsService,
-    private _localizationService: LocalizationService) { }
+    private _localizationService: LocalizationService,
+    private _configStateService: ConfigStateService) { }
 
   ngOnInit(): void
   {
@@ -57,6 +59,11 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
       });
   }
 
+  private AssignCurrentUserToGhostNet(): void
+  {
+    
+  }
+
   public OnTableContextMenu(event): void
   {
     this.coordinatePosition.X = event.event.pageX;
@@ -72,7 +79,6 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
   private InitiateContextMenu(): void
   {
     this.availableContextActions.push(
-      ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::'), (() => this.HookToDataTable()), "pen"),    // CreateEvents
-      ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::'), (() => this.HookToDataTable()), "trash")); // CreateEvents
+      ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::Assign myself'), (() => this.AssignCurrentUserToGhostNet()), "pen")); // CreateEvents
   }
 }
