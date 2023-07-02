@@ -1,7 +1,6 @@
 ﻿using GhostNetFishing.GhostNets;
 using System;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.Identity;
 
 namespace GhostNetFishing.GhostNetAndPersons
 {
@@ -10,7 +9,6 @@ namespace GhostNetFishing.GhostNetAndPersons
         public int GhostNetId { get; set; }
         public GhostNet GhostNet { get; set; }
         public Guid UserId { get; set; }
-        public IdentityUser User { get; set; }
 
         public GhostNetAndPerson(int ghostNetId, GhostNet ghostNet) 
         {
@@ -18,9 +16,7 @@ namespace GhostNetFishing.GhostNetAndPersons
             GhostNet = ghostNet;
         }
 
-        public GhostNetAndPerson(
-            int ghostNetId,
-            Guid userId)
+        public GhostNetAndPerson(int ghostNetId, Guid userId)
         {
             GhostNetId = ghostNetId;
             UserId = userId;

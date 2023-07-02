@@ -3,4 +3,5 @@ import * as GhostNets from './ghost-nets';
 import * as GhostNetsAndPersons from './ghost-nets-and-persons';
 import * as PersonTypes from './person-types';
 import * as Persons from './persons';
-export { GhostNetStatuses, GhostNets, GhostNetsAndPersons, PersonTypes, Persons };
+import * as User from './user';
+export { GhostNetStatuses, GhostNets, GhostNetsAndPersons, PersonTypes, Persons, User };

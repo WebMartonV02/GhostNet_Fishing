@@ -6,7 +6,6 @@ namespace GhostNetFishing.GhostNetsAndPersons
     {
         public int Id { get; set; }
         public int GhostNetId { get; set; }
-        public Guid PersonId { get; set; }
-
+        public Guid UserId { get; set; }
     }
 }

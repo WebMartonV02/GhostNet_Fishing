@@ -1,11 +1,11 @@
 ﻿using GhostNetFishing.GhostNets;
-using GhostNetFishing.Persons;
+using GhostNetFishing.User;
 
 namespace GhostNetFishing.GhostNetsAndPersons
 {
     public class GhostNetAndPersonResultDto
     {
         public GhostNetResultDto GhostNet { get; set; }
-        public PersonResultDto Person { get; set; }
+        public UserResultDto User { get; set; }
     }
 }

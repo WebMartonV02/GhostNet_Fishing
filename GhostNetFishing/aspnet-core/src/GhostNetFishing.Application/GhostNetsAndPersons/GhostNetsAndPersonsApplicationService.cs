@@ -1,7 +1,8 @@
 ﻿using GhostNetFishing.Common.Interfaces;
 using GhostNetFishing.GhostNetAndPersons;
 using GhostNetFishing.GhostNetAndPersons.Interfaces;
-using GhostNetFishing.GhostNetsAndPersons;
+using GhostNetFishing.Permissions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -10,7 +11,8 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
-
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Users;
 using EntityClass = GhostNetFishing.GhostNetAndPersons.GhostNetAndPerson;
 using EntityRequestClassDto = GhostNetFishing.GhostNetsAndPersons.GhostNetAndPersonRequestDto;
 using EntityResultClassDto = GhostNetFishing.GhostNetsAndPersons.GhostNetAndPersonResultDto;
@@ -22,15 +24,21 @@ namespace GhostNetFishing.GhostNets
         private readonly IDefaultRepository<EntityClass> _defaultRepository;
         private readonly IDefaultRepository<GhostNet> _ghostNetDefaultRepository;
         private readonly IGhostNetAssignmentDomainService _ghostNetAssignmentDomainService;
+        private readonly ICurrentUser _currentUser;
+        private readonly IPermissionManager _permissionManager;
 
         public GhostNetsAndPersonsApplicationService(
             IDefaultRepository<EntityClass> defaultRepository,
             IDefaultRepository<GhostNet> ghostNetDefaultRepository,
-            IGhostNetAssignmentDomainService ghostNetAssignmentDomainService)
+            IGhostNetAssignmentDomainService ghostNetAssignmentDomainService,
+            ICurrentUser currentUser,
+            IPermissionManager permissionManager)
         {
             _defaultRepository = defaultRepository;
             _ghostNetDefaultRepository = ghostNetDefaultRepository;
             _ghostNetAssignmentDomainService = ghostNetAssignmentDomainService;
+            _currentUser = currentUser;
+            _permissionManager = permissionManager;
         }
 
         public async Task<PagedResultDto<EntityResultClassDto>> GetListWithUnassignedGhostNetsAsync(PagedAndSortedResultRequestDto requestDto)
@@ -39,15 +47,15 @@ namespace GhostNetFishing.GhostNets
 
             var generatedGhostNetAndPersonDomainModel = await _ghostNetAssignmentDomainService.GenerateAllNonExistingAssignmentRecords(allUnassignedGhostNets);
 
-            var mappedDtoToResultDto = ObjectMapper.Map<List<GhostNetAndPersonResultDomainModel>, List<EntityResultClassDto>>(generatedGhostNetAndPersonDomainModel);
-
             var entities = (await _defaultRepository.GetListWithNestedsAsync()).ToList();
 
             var entitiesForTable = entities.Skip(requestDto.SkipCount).Take(requestDto.MaxResultCount).ToList();
 
-            var entityResultDtos = ObjectMapper.Map<List<EntityClass>, List<EntityResultClassDto>>(entitiesForTable);
+            var entityWithIncludedUsers = await _ghostNetAssignmentDomainService.IncludeIdentityUserEntityIntoGhostNetEntity(entitiesForTable);
 
-            entityResultDtos.AddRange(mappedDtoToResultDto);
+            entityWithIncludedUsers.AddRange(generatedGhostNetAndPersonDomainModel);
+
+            var entityResultDtos = ObjectMapper.Map<List<GhostNetAndPersonResultDomainModel>, List<EntityResultClassDto>>(entityWithIncludedUsers);
 
             var totalCount = entityResultDtos.Count();
 
@@ -63,9 +71,24 @@ namespace GhostNetFishing.GhostNets
             return entityResultDto;
         }
 
+        public async Task AssignCurrentUserToTheSpecificGhostnNet(int ghostNetId)
+        {
+            var recoveringUserPermissions = (await _permissionManager.GetAllForUserAsync((Guid)_currentUser.Id))
+                .Where(x => x.Name == GhostNetFishingPermissions.GhostNet.Recovering);
+
+            if (recoveringUserPermissions is null)
+            {
+                throw new UserFriendlyException($"User cannot be assigned to the GhostNet with following Id: {ghostNetId}, lack of permission");
+            }
+
+            var entityToBeSaved = new EntityClass(ghostNetId, (Guid)_currentUser.Id);
+
+            await _defaultRepository.InsertAsync(entityToBeSaved);
+        }
+
         public async Task CreateAsync(EntityRequestClassDto requestDto)
         {
-            var entityToBeCreated = new EntityClass(requestDto.GhostNetId, requestDto.PersonId);
+            var entityToBeCreated = new EntityClass(requestDto.GhostNetId, requestDto.UserId);
 
             await _defaultRepository.InsertAsync(entityToBeCreated);   
         }
@@ -76,7 +99,7 @@ namespace GhostNetFishing.GhostNets
 
             if (storedEntity == null) throw new UserFriendlyException($"Ghostnet with the following unique identifier is not existing: {requestDto.Id}");
 
-            var updatedEntity = storedEntity.Update(requestDto.GhostNetId, requestDto.PersonId);
+            var updatedEntity = storedEntity.Update(requestDto.GhostNetId, requestDto.UserId);
 
             await _defaultRepository.UpdateAsync(updatedEntity);
         }

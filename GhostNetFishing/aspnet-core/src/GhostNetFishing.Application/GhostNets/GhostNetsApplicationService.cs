@@ -1,4 +1,7 @@
 ﻿using GhostNetFishing.Common.Interfaces;
+using GhostNetFishing.GhostNetStatuses;
+using GhostNetFishing.Permissions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -7,7 +10,9 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
-
+using Volo.Abp.Identity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Users;
 using EntityClass = GhostNetFishing.GhostNets.GhostNet;
 using EntityRequestClassDto = GhostNetFishing.GhostNets.GhostNetRequestDto;
 using EntityResultClassDto = GhostNetFishing.GhostNets.GhostNetResultDto;
@@ -16,11 +21,21 @@ namespace GhostNetFishing.GhostNets
 {
     public class GhostNetsApplicationService : GhostNetFishingAppService, ITransientDependency
     {
-        public readonly IDefaultRepository<EntityClass> _defaultRepository;
+        private readonly IDefaultRepository<EntityClass> _defaultRepository;
+        private readonly IRepository<IdentityUser> _userRepository;
+        private readonly ICurrentUser _currentUser;
+        private readonly IPermissionManager _permissionManager;
 
-        public GhostNetsApplicationService(IDefaultRepository<EntityClass> defaultRepository)
+        public GhostNetsApplicationService(
+            IDefaultRepository<EntityClass> defaultRepository,
+            IRepository<IdentityUser> userRepository,
+            ICurrentUser currentUser,
+            IPermissionManager permissionManager)
         {
             _defaultRepository = defaultRepository;
+            _userRepository = userRepository;
+            _currentUser = currentUser;
+            _permissionManager = permissionManager;
         }
 
         public async Task<PagedResultDto<EntityResultClassDto>> GetListAsync(PagedAndSortedResultRequestDto requestDto)
@@ -54,6 +69,19 @@ namespace GhostNetFishing.GhostNets
 
         public async Task UpdateAsync(EntityRequestClassDto requestDto)
         {
+            if (requestDto.GhostNetStatusId == ((int)GhostNetStatusesEnum.Verschollen) && _currentUser.PhoneNumber is null)
+            {
+                throw new UserFriendlyException("GhostNet cant be marked as Verschollen as anonymous!");
+            }
+
+            var recoveringUserPermissions = (await _permissionManager.GetAllForUserAsync((Guid)_currentUser.Id))
+                .Where(x => x.Name == GhostNetFishingPermissions.GhostNet.Recovering);
+
+            if (recoveringUserPermissions is null && requestDto.GhostNetStatusId == ((int)GhostNetStatusesEnum.Geborgen))
+            {
+                throw new UserFriendlyException("GhostNet cant be marked as Geborgen without the required permission!");
+            }
+
             var storedEntity = await _defaultRepository.FirstOrDefaultAsync(x => x.Id == requestDto.Id);
 
             if (storedEntity == null) throw new UserFriendlyException($"Ghostnet with the following unique identifier is not existing: {requestDto.Id}");

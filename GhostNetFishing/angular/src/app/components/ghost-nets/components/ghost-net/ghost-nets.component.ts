@@ -193,10 +193,15 @@ export class GhostNetsComponent implements OnInit, OnDestroy
 
   private InitiateContextMenu(): void
   {
+    if (this._permissionService.getGrantedPolicy("GhostNetFishing.GhostNet.Recovering"))
+    {
+      this.availableContextActions.push(
+        ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::SetStatusToGeborgen'), (() => this.SetStatusToGeborgen()), "pen"));
+    }
+
     this.availableContextActions.push(
       ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::SetStatusToGemeldet'), (() => this.SetStatusToGemeldet()), "pen"),
       ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::SetStatusToBergungBevorstehend'), (() => this.SetStatusToBergungBevorstehend()), "pen"),
-      ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::SetStatusToGeborgen'), (() => this.SetStatusToGeborgen()), "pen"),
       ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::SetStatusToVerschollen'), (() => this.SetStatusToVerschollen()), "pen"));
   }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
 using Volo.Abp.ObjectMapping;
 
 namespace GhostNetFishing.GhostNetAndPersons
@@ -15,15 +16,18 @@ namespace GhostNetFishing.GhostNetAndPersons
     {
         private readonly IDefaultRepository<GhostNet> _ghostNetRepository;
         private readonly IRepository<GhostNetAndPerson> _ghostNetAndPersonRepository;
+        private readonly IRepository<IdentityUser> _userRepository;
         private readonly IObjectMapper _objectMapper;
 
         public GhostNetAssignmentDomainService(
             IDefaultRepository<GhostNet> ghostNetRepository,
             IRepository<GhostNetAndPerson> ghostNetAndPersonRepository,
+            IRepository<IdentityUser> userRepository,
             IObjectMapper objectMapper)
         {
             _ghostNetRepository = ghostNetRepository;
             _ghostNetAndPersonRepository = ghostNetAndPersonRepository;
+            _userRepository = userRepository;
             _objectMapper = objectMapper;
         }
 
@@ -50,6 +54,23 @@ namespace GhostNetFishing.GhostNetAndPersons
                 result.Add(mappedDto);
             }
             
+            return result;
+        }
+
+        public async Task<List<GhostNetAndPersonResultDomainModel>> IncludeIdentityUserEntityIntoGhostNetEntity(List<GhostNetAndPerson> ghostNetAndPersons)
+        {
+            var result = new List<GhostNetAndPersonResultDomainModel>();
+
+            foreach (var ghostNetAndPerson in ghostNetAndPersons)
+            {
+                var belongingUser = await _userRepository.GetAsync(x => x.Id == ghostNetAndPerson.UserId);
+
+                var entityResultDto = _objectMapper.Map<GhostNetAndPerson, GhostNetAndPersonResultDomainModel>(ghostNetAndPerson);
+                entityResultDto.User = belongingUser;
+
+                result.Add(entityResultDto);
+            }
+
             return result;
         }
     }

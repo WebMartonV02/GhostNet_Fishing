@@ -10,6 +10,14 @@ export class GhostNetsAndPersonsService {
   apiName = 'Default';
   
 
+  assignCurrentUserToTheSpecificGhostnNetByGhostNetId = (ghostNetId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/ghost-nets-and-persons/assign-current-user-to-the-specific-ghostn-net/${ghostNetId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   create = (requestDto: GhostNetAndPersonRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'POST',

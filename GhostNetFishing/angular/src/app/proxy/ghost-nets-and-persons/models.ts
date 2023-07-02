@@ -1,13 +1,13 @@
 import type { GhostNetResultDto } from '../ghost-nets/models';
-import type { PersonResultDto } from '../persons/models';
+import type { UserResultDto } from '../user/models';
 
 export interface GhostNetAndPersonRequestDto {
   id: number;
   ghostNetId: number;
-  personId: number;
+  userId?: string;
 }
 
 export interface GhostNetAndPersonResultDto {
   ghostNet: GhostNetResultDto;
-  person: PersonResultDto;
+  user: UserResultDto;
 }

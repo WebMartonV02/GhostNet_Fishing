@@ -8,5 +8,6 @@ namespace GhostNetFishing.GhostNetAndPersons.Interfaces
     {
         Task<List<GhostNet>> GetAllUnassginedGhostNet();
         Task<List<GhostNetAndPersonResultDomainModel>> GenerateAllNonExistingAssignmentRecords(List<GhostNet> unassigndeGhostNets);
+        Task<List<GhostNetAndPersonResultDomainModel>> IncludeIdentityUserEntityIntoGhostNetEntity(List<GhostNetAndPerson> ghostNetAndPersons);
     }
 }

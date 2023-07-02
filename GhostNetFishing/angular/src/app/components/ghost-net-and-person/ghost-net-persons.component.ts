@@ -1,4 +1,4 @@
-import { ConfigStateService, CurrentUserDto, ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import { ConfigStateService, CurrentUserDto, ListService, LocalizationService, PagedAndSortedResultRequestDto, PagedResultDto, PermissionService } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GhostNetsAndPersonsService } from '../../proxy/ghost-nets';
@@ -28,6 +28,7 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
     public readonly listService: ListService,
     private _ghostNetsAndPersonsService: GhostNetsAndPersonsService,
     private _localizationService: LocalizationService,
+    private _permissionService: PermissionService,
     private _configStateService: ConfigStateService) { }
 
   ngOnInit(): void
@@ -61,7 +62,12 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
 
   private AssignCurrentUserToGhostNet(): void
   {
-    
+    this._ghostNetsAndPersonsService.assignCurrentUserToTheSpecificGhostnNetByGhostNetId(this._selectedElementByContextMenu.ghostNet.id)
+      .pipe(takeUntil(this._componentDestroyed$))
+      .subscribe(() =>
+      {
+        this.listService.getWithoutPageReset();
+      });
   }
 
   public OnTableContextMenu(event): void
@@ -78,7 +84,10 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
 
   private InitiateContextMenu(): void
   {
-    this.availableContextActions.push(
-      ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::Assign myself'), (() => this.AssignCurrentUserToGhostNet()), "pen")); // CreateEvents
+    if (this._permissionService.getGrantedPolicy("GhostNetFishing.GhostNet.Recovering"))
+    {
+      this.availableContextActions.push(
+        ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::Assign myself'), (() => this.AssignCurrentUserToGhostNet()), "pen"));
+    }
   }
 }
