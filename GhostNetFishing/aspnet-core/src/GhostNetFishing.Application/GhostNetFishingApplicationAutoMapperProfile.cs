@@ -3,8 +3,6 @@ using GhostNetFishing.GhostNetAndPersons;
 using GhostNetFishing.GhostNets;
 using GhostNetFishing.GhostNetsAndPersons;
 using GhostNetFishing.GhostNetStatuses;
-using GhostNetFishing.Persons;
-using GhostNetFishing.PersonTypes;
 using GhostNetFishing.User;
 using Volo.Abp.Identity;
 
@@ -15,7 +13,6 @@ public class GhostNetFishingApplicationAutoMapperProfile : Profile
     public GhostNetFishingApplicationAutoMapperProfile()
     {
         CreateGhostNetMaps();
-        CreatePersonMaps();
         CreateGhostNetsAndPersonsMaps();
         CreateUserMaps();
     }
@@ -27,15 +24,6 @@ public class GhostNetFishingApplicationAutoMapperProfile : Profile
         CreateMap<GhostNetRequestDto, GhostNet>();
 
         CreateMap<GhostNetStatus, GhostNetStatusResultDto>();
-    }
-
-    private void CreatePersonMaps()
-    {
-        CreateMap<Person, PersonResultDto>();
-        CreateMap<Person, Person>();
-        CreateMap<PersonRequestDto, Person>();
-
-        CreateMap<PersonType, PersonTypeResultDto>();
     }
 
     private void CreateUserMaps()
@@ -51,6 +39,5 @@ public class GhostNetFishingApplicationAutoMapperProfile : Profile
         CreateMap<GhostNetAndPersonResultDomainModel, GhostNetAndPersonResultDto>();
         CreateMap<GhostNetAndPerson, GhostNetAndPersonResultDomainModel>()
             .ForMember(dst => dst.GhostNet, opt => opt.MapFrom(src => src.GhostNet));
-
     }
 }

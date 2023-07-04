@@ -47,7 +47,7 @@ export class GhostNetsComponent implements OnInit, OnDestroy
 
     this.InitiateContextMenu();
 
-    this._permissionService.getGrantedPolicy$("GhostNetFishing.GhostNet.Recovering")
+    this._permissionService.getGrantedPolicy$("GhostNetFishing.GeisterNetz.Bergende")
       .pipe(takeUntil(this._componentDestroyed$))
       .subscribe((payload: boolean) =>
       {
@@ -193,7 +193,7 @@ export class GhostNetsComponent implements OnInit, OnDestroy
 
   private InitiateContextMenu(): void
   {
-    if (this._permissionService.getGrantedPolicy("GhostNetFishing.GhostNet.Recovering"))
+    if (this._permissionService.getGrantedPolicy("GhostNetFishing.GeisterNetz.Bergende"))
     {
       this.availableContextActions.push(
         ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::SetStatusToGeborgen'), (() => this.SetStatusToGeborgen()), "pen"));

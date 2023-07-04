@@ -6,7 +6,15 @@
 
     "Menu:Home": "Home",
     "Menu:GhostNets": "GhostNets",
-    "Menu:Persons": "Persons",
-    "Menu:GhostNetsAndPersons": "GhostNets Assignemnt"
+    "Menu:GhostNetsAndPersons": "GhostNets Assignment",
+    "NewGhostNet": "New GhostNet",
+    "NotExistingGhostNet": "Ghostnet with the following unique identifier is not existing: '{0}'",
+    "MissingPermission": "User cannot be assigned to the GhostNet with following Id: '{0}', lack of permission.",
+    "AssignMyself": "Assign myself",
+    "SetStatusToGeborgen": "Set status to Recovered",
+    "SetStatusToGemeldet": "Set status to Reported",
+    "SetStatusToBergungBevorstehend": "Set status to Recovering Pending",
+    "SetStatusToVerschollen": "Set status to Missing",
+    "AnonymousException": "MissingStatus cannot be set as anonymous User"
   }
 }

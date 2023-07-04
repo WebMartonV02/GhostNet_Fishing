@@ -1,6 +1,7 @@
 ﻿using GhostNetFishing.Common.Interfaces;
 using GhostNetFishing.Repositories.Common;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;

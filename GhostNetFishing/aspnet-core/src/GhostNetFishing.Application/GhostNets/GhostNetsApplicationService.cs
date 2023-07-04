@@ -1,6 +1,8 @@
 ﻿using GhostNetFishing.Common.Interfaces;
 using GhostNetFishing.GhostNetStatuses;
+using GhostNetFishing.Localization;
 using GhostNetFishing.Permissions;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +24,21 @@ namespace GhostNetFishing.GhostNets
     public class GhostNetsApplicationService : GhostNetFishingAppService, ITransientDependency
     {
         private readonly IDefaultRepository<EntityClass> _defaultRepository;
-        private readonly IRepository<IdentityUser> _userRepository;
         private readonly ICurrentUser _currentUser;
         private readonly IPermissionManager _permissionManager;
+        private readonly IStringLocalizer<GhostNetFishingResource> _stringLocalizer;
+
 
         public GhostNetsApplicationService(
             IDefaultRepository<EntityClass> defaultRepository,
-            IRepository<IdentityUser> userRepository,
             ICurrentUser currentUser,
-            IPermissionManager permissionManager)
+            IPermissionManager permissionManager,
+            IStringLocalizer<GhostNetFishingResource> stringLocalizer)
         {
             _defaultRepository = defaultRepository;
-            _userRepository = userRepository;
             _currentUser = currentUser;
             _permissionManager = permissionManager;
+            _stringLocalizer = stringLocalizer;
         }
 
         public async Task<PagedResultDto<EntityResultClassDto>> GetListAsync(PagedAndSortedResultRequestDto requestDto)
@@ -71,11 +74,11 @@ namespace GhostNetFishing.GhostNets
         {
             if (requestDto.GhostNetStatusId == ((int)GhostNetStatusesEnum.Verschollen) && _currentUser.PhoneNumber is null)
             {
-                throw new UserFriendlyException("GhostNet cant be marked as Verschollen as anonymous!");
+                throw new UserFriendlyException(_stringLocalizer["AnonymousException"]);
             }
 
             var recoveringUserPermissions = (await _permissionManager.GetAllForUserAsync((Guid)_currentUser.Id))
-                .Where(x => x.Name == GhostNetFishingPermissions.GhostNet.Recovering);
+                .Where(x => x.Name == GhostNetFishingPermissions.GhostNet.Bergende);
 
             if (recoveringUserPermissions is null && requestDto.GhostNetStatusId == ((int)GhostNetStatusesEnum.Geborgen))
             {

@@ -84,10 +84,10 @@ export class GhostNetPersonsComponent implements OnInit, OnDestroy
 
   private InitiateContextMenu(): void
   {
-    if (this._permissionService.getGrantedPolicy("GhostNetFishing.GhostNet.Recovering"))
+    if (this._permissionService.getGrantedPolicy("GhostNetFishing.GeisterNetz.Bergende"))
     {
       this.availableContextActions.push(
-        ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::Assign myself'), (() => this.AssignCurrentUserToGhostNet()), "pen"));
+        ContextMenuActionFactory.CreateAvailableContextActions(this._localizationService.instant('::AssignMyself'), (() => this.AssignCurrentUserToGhostNet()), "pen"));
     }
   }
 }

@@ -6,7 +6,15 @@
 
     "Menu:Home": "Home",
     "Menu:GhostNets": "GeisterNetze",
-    "Menu:Persons": "Personen",
     "Menu:GhostNetsAndPersons": "GeisterNetze Zuordnung",
+    "NewGhostNet": "Neue GeisterNetz",
+    "NotExistingGhostNet": "GeisterNet mit der folgende Kennzeichnung existiert nicht: '{0}'",
+    "MissingPermission": "Benutzer kann nicht zugeordnet werden zu dem folgendem GeisterNetz: {0}, fehlende Genehmigung",
+    "AssignMyself": "Sich selbst zuordnen",
+    "SetStatusToGeborgen": "Status auf Geborgen stellen",
+    "SetStatusToGemeldet": "Status auf Gemeldet stellen",
+    "SetStatusToBergungBevorstehend": "Status auf Bergung Bevorstehend stellen",
+    "SetStatusToVerschollen": "Status zu Verschollen stellen",
+    "AnonymousException":  "Verschollen Status kann nicht einstellen, als Anonymous Benutzer."
   }
 }

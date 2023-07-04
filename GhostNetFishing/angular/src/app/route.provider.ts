@@ -18,18 +18,10 @@ function configureRoutes(routesService: RoutesService) {
       {
         path: '/ghost-nets',
         name: '::Menu:GhostNets',
-        iconClass: 'fa-regular fa-goal-net',
+        iconClass: 'fas fa-network-wired',
         order: 2,
         layout: eLayoutType.application,
-        requiredPolicy: 'GhostNetFishing.GhostNet'
-      },
-      {
-        path: '/persons',
-        name: '::Menu:Persons',
-        iconClass: 'fa-solid fa-user',
-        order: 3,
-        layout: eLayoutType.application,
-        requiredPolicy: 'GhostNetFishing.GhostNet'
+        requiredPolicy: 'GhostNetFishing.GeisterNetz'
       },
       {
         path: '/ghost-net-persons',
@@ -37,7 +29,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fa-solid fa-user',
         order: 4,
         layout: eLayoutType.application,
-        requiredPolicy: 'GhostNetFishing.GhostNet'
+        requiredPolicy: 'GhostNetFishing.GeisterNetz'
       },
     ]);
   };

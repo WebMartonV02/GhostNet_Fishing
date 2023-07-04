@@ -6,8 +6,8 @@ public static class GhostNetFishingPermissions
 
     public static class GhostNet
     {
-        public const string Default = GroupName + ".GhostNet";
-        public const string Reporting = Default + ".Reporting"; // Meldende
-        public const string Recovering = Default + ".Recovering"; // Bergende
+        public const string Default = GroupName + ".GeisterNetz";
+        public const string Meldende = Default + ".Meldende"; 
+        public const string Bergende = Default + ".Bergende";
     }
 }

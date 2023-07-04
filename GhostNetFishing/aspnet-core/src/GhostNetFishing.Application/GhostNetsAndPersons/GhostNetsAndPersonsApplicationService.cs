@@ -1,7 +1,9 @@
 ﻿using GhostNetFishing.Common.Interfaces;
 using GhostNetFishing.GhostNetAndPersons;
 using GhostNetFishing.GhostNetAndPersons.Interfaces;
+using GhostNetFishing.Localization;
 using GhostNetFishing.Permissions;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,23 +24,23 @@ namespace GhostNetFishing.GhostNets
     public class GhostNetsAndPersonsApplicationService : GhostNetFishingAppService, ITransientDependency
     {
         private readonly IDefaultRepository<EntityClass> _defaultRepository;
-        private readonly IDefaultRepository<GhostNet> _ghostNetDefaultRepository;
         private readonly IGhostNetAssignmentDomainService _ghostNetAssignmentDomainService;
         private readonly ICurrentUser _currentUser;
         private readonly IPermissionManager _permissionManager;
+        private readonly IStringLocalizer<GhostNetFishingResource> _stringLocalizer;
 
         public GhostNetsAndPersonsApplicationService(
             IDefaultRepository<EntityClass> defaultRepository,
-            IDefaultRepository<GhostNet> ghostNetDefaultRepository,
             IGhostNetAssignmentDomainService ghostNetAssignmentDomainService,
             ICurrentUser currentUser,
-            IPermissionManager permissionManager)
+            IPermissionManager permissionManager,
+            IStringLocalizer<GhostNetFishingResource> stringLocalizer)
         {
             _defaultRepository = defaultRepository;
-            _ghostNetDefaultRepository = ghostNetDefaultRepository;
             _ghostNetAssignmentDomainService = ghostNetAssignmentDomainService;
             _currentUser = currentUser;
             _permissionManager = permissionManager;
+            _stringLocalizer = stringLocalizer;
         }
 
         public async Task<PagedResultDto<EntityResultClassDto>> GetListWithUnassignedGhostNetsAsync(PagedAndSortedResultRequestDto requestDto)
@@ -74,11 +76,12 @@ namespace GhostNetFishing.GhostNets
         public async Task AssignCurrentUserToTheSpecificGhostnNet(int ghostNetId)
         {
             var recoveringUserPermissions = (await _permissionManager.GetAllForUserAsync((Guid)_currentUser.Id))
-                .Where(x => x.Name == GhostNetFishingPermissions.GhostNet.Recovering);
+                .Where(x => x.Name == GhostNetFishingPermissions.GhostNet.Bergende);
 
             if (recoveringUserPermissions is null)
             {
-                throw new UserFriendlyException($"User cannot be assigned to the GhostNet with following Id: {ghostNetId}, lack of permission");
+                //throw new UserFriendlyException($"User cannot be assigned to the GhostNet with following Id: {ghostNetId}, lack of permission");
+                throw new UserFriendlyException(_stringLocalizer["MissingPermission", ghostNetId]);
             }
 
             var entityToBeSaved = new EntityClass(ghostNetId, (Guid)_currentUser.Id);
@@ -97,7 +100,7 @@ namespace GhostNetFishing.GhostNets
         {
             var storedEntity = await _defaultRepository.FirstOrDefaultAsync(x => x.Id == requestDto.Id);
 
-            if (storedEntity == null) throw new UserFriendlyException($"Ghostnet with the following unique identifier is not existing: {requestDto.Id}");
+            if (storedEntity == null) throw new UserFriendlyException(_stringLocalizer["NotExistingGhostNet", requestDto.Id]);
 
             var updatedEntity = storedEntity.Update(requestDto.GhostNetId, requestDto.UserId);
 

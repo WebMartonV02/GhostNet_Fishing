@@ -1,8 +1,6 @@
 ﻿using GhostNetFishing.GhostNetAndPersons;
 using GhostNetFishing.GhostNets;
 using GhostNetFishing.GhostNetStatuses;
-using GhostNetFishing.Persons;
-using GhostNetFishing.PersonTypes;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -32,8 +30,6 @@ public class GhostNetFishingDbContext :
     public DbSet<GhostNet> GhostNets { get; set; }
     public DbSet<GhostNetStatus> GhostNetStatuses { get; set; }
     public DbSet<GhostNetAndPerson> GhostNetAndPersons { get; set; }
-    public DbSet<Person> Persons { get; set; }
-    public DbSet<PersonType> PersonTypes { get; set; }
 
     #region Entities from the modules
 
@@ -104,25 +100,7 @@ public class GhostNetFishingDbContext :
             b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(GhostNetAndPerson), GhostNetFishingConsts.DbSchema);
             b.ConfigureByConvention();
 
-            //b.HasOne(x => x.Person).WithMany(x => x.GhostNetAndPerson).HasForeignKey(x => x.PersonId);
             b.HasOne(x => x.GhostNet).WithMany(x => x.GhostNetAndPerson).HasForeignKey(x => x.GhostNetId);
         });
-
-        //builder.Entity<Person>(b =>
-        //{
-        //    b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(Person), GhostNetFishingConsts.DbSchema);
-        //    b.ConfigureByConvention();
-
-        //    b.HasOne(x => x.PersonType).WithMany(x => x.Persons).HasForeignKey(x => x.PersonTypeId);
-        //    b.HasMany(x => x.GhostNetAndPerson).WithOne(x => x.Person).HasForeignKey(x => x.PersonId);
-        //});
-
-        //builder.Entity<PersonType>(b =>
-        //{
-        //    b.ToTable(GhostNetFishingConsts.DbTablePrefix + nameof(PersonType), GhostNetFishingConsts.DbSchema);
-        //    b.ConfigureByConvention();
-
-        //    b.HasMany(x => x.Persons).WithOne(x => x.PersonType).HasForeignKey(x => x.PersonTypeId);
-        //});
     }
 }
