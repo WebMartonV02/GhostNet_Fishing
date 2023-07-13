@@ -10,9 +10,9 @@ public class GhostNetFishingPermissionDefinitionProvider : PermissionDefinitionP
     {
         var myGroup = context.AddGroup(GhostNetFishingPermissions.GroupName);
 
-        var booksPermission = myGroup.AddPermission(GhostNetFishingPermissions.GhostNet.Default, L("Permission:GeisterNetz"));
-        booksPermission.AddChild(GhostNetFishingPermissions.GhostNet.Meldende, L("Permission:GeisterNetz.Meldende"));
-        booksPermission.AddChild(GhostNetFishingPermissions.GhostNet.Bergende, L("Permission:GeisterNetz.Bergende"));
+        var ghostNetPermissionen = myGroup.AddPermission(GhostNetFishingPermissions.GhostNet.Default, L("Permission:GeisterNetz"));
+        ghostNetPermissionen.AddChild(GhostNetFishingPermissions.GhostNet.Meldende, L("Permission:GeisterNetz.Meldende"));
+        ghostNetPermissionen.AddChild(GhostNetFishingPermissions.GhostNet.Bergende, L("Permission:GeisterNetz.Bergende"));
     }
 
     private static LocalizableString L(string name)

@@ -12,7 +12,6 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Identity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Users;
 using EntityClass = GhostNetFishing.GhostNets.GhostNet;
